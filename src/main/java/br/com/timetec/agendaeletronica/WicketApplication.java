@@ -37,13 +37,13 @@ public class WicketApplication extends WebApplication {
 
 	private Connection criaConexao() {
 		try {
-			Class.forName("org.postgresql.Driver");
+			Class.forName("org.h2.Driver");
 		} catch (ClassNotFoundException e) {
 			throw new UnsupportedOperationException(e.getMessage());
 		}
 		
 		try {
-			return DriverManager.getConnection("jdbc:postgresql://localhost5432/agendaeletronica", "user", "pass");
+			return DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

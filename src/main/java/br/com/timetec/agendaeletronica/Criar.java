@@ -1,14 +1,25 @@
 package br.com.timetec.agendaeletronica;
 
+import java.io.Serializable;
 import java.sql.Connection;
+import java.util.Arrays;
 
+import org.apache.wicket.feedback.ErrorLevelFeedbackMessageFilter;
+import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.validation.validator.EmailAddressValidator;
+import org.apache.wicket.validation.validator.StringValidator;
 
 import br.com.timetec.agendaeletronica.contato.Contato;
 import br.com.timetec.agendaeletronica.contato.ContatoDAO;
+import br.com.timetec.agendaeletronica.contato.EstadoCivil;
 
 public class Criar extends BasePage {
 
@@ -38,8 +49,28 @@ public class Criar extends BasePage {
 		TextField<String> inputNome = new TextField<String>("nome");
 		TextField<String> inputEmail = new TextField<String>("email");
 		TextField<String> inputTelefone = new TextField<String>("telefone");
-		form.add(inputNome, inputEmail, inputTelefone);
+		DropDownChoice<EstadoCivil> comboEstadoCivil = new DropDownChoice<EstadoCivil>("estadoCivil", 
+				Arrays.asList(EstadoCivil.values()), new IChoiceRenderer<EstadoCivil>() {
+
+					private static final long serialVersionUID = 73876582477209734L;
+
+					@Override
+					public Object getDisplayValue(EstadoCivil object) {
+						return object.getLabel();
+					}
+
+					@Override
+					public String getIdValue(EstadoCivil object, int index) {
+						return object.name();
+					}
+				});
+		
+		form.add(inputNome, inputEmail, inputTelefone, comboEstadoCivil);
+		inputNome.setLabel(Model.of("Nome do contato")).setRequired(true).add(StringValidator.maximumLength(10));
+		inputEmail.setLabel(Model.of("Email do contato")).add(EmailAddressValidator.getInstance());
+		add(new FeedbackPanel("feedbackMessage", new ErrorLevelFeedbackMessageFilter(FeedbackMessage.ERROR)));
 	}
+	
 	
 	private void salvar(Contato contatoSubmetido) {
 		Connection conexao = ((WicketApplication) getApplication()).getConexao();

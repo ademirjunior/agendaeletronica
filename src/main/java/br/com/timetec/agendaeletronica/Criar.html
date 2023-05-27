@@ -7,6 +7,7 @@
 <body>
 <wicket:extend>
 	<h1 wicket:id="titulo">[titulo]</h1>
+	<div style="color:red" wicket:id="feedbackMessage"></div>
 	<form wicket:id="formularioContato" name="formularioContato">
 		<input wicket:id="nome" type="text" placeholder="Nome"/>
 		<br />
@@ -14,6 +15,12 @@
 		<br />
 		<input wicket:id="telefone" type="text" placeholder="Telfone"/>
 		<br />
+		<select wicket:id="estadoCivil">
+			<option>[primera opcao]</option>
+			<option>[segunda opcao]</option>
+			<option>[terceira opcao]</option>
+			<option>[quarta opcao]</option>
+		</select>
 		<button type="submit" name="submit">Salvar</button>
 	</form>
 </wicket:extend>
