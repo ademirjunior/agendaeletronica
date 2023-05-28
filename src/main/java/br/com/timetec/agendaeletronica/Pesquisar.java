@@ -7,6 +7,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PropertyListView;
 import org.apache.wicket.model.Model;
@@ -35,11 +36,20 @@ public class Pesquisar extends BasePage {
 			private static final long serialVersionUID = -7981833775145119443L;
 
 			@Override
-			protected void populateItem(ListItem<Contato> item) {
+			protected void populateItem(final ListItem<Contato> item) {
 				item.add(new Label("nome"));
 				item.add(new Label("email"));
 				item.add(new Label("telefone"));
 				item.add(new Label("estadoCivil"));
+				item.add(new Link<Void>("linkEditar") {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void onClick() {
+						setResponsePage(new Editar(item.getModelObject()));
+						
+					}
+				});
 			}
 		};
 		

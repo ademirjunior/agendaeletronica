@@ -1,6 +1,5 @@
 package br.com.timetec.agendaeletronica;
 
-import java.io.Serializable;
 import java.sql.Connection;
 import java.util.Arrays;
 
@@ -26,9 +25,13 @@ public class Criar extends BasePage {
 	private static final long serialVersionUID = -1757976258526671212L;
 
 	public Criar() {
+		this(new Contato());
+	}
+
+
+	//Contrutor para criar contato
+	protected Criar(Contato contato) {
 		add(new Label("titulo", "Criação de contato!"));
-		
-		Contato contato = new Contato();
 		CompoundPropertyModel<Contato> compoundPropertyModelContato = new CompoundPropertyModel<Contato>(contato);
 		
 		Form<Contato> form = new Form<Contato>("formularioContato", compoundPropertyModelContato) {
@@ -72,7 +75,7 @@ public class Criar extends BasePage {
 	}
 	
 	
-	private void salvar(Contato contatoSubmetido) {
+	protected void salvar(Contato contatoSubmetido) {
 		Connection conexao = ((WicketApplication) getApplication()).getConexao();
 		ContatoDAO dao = new ContatoDAO(conexao);
 		dao.inserir(contatoSubmetido);
